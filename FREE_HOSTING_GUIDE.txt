@@ -1,0 +1,77 @@
+ENSEMBLE PRO FREE HOSTING GUIDE (CLOUDFLARE-FIRST)
+==================================================
+
+This project is now structured as a Vite + React app with live front-end behavior. The current version demonstrates auto-updating chat and collaboration state in the browser with localStorage, BroadcastChannel, and a live sync bot. That means two tabs on the same device can see chat updates without refreshing. For real users on different devices, the next production step is adding a real backend.
+
+Because Netlify and Vercel are blocked at school, use Cloudflare Pages for the public website. Cloudflare Pages is a free static front-end host, and Cloudflare can also provide dynamic backends through Workers, D1, R2, and Durable Objects.
+
+Recommended host: Cloudflare Pages
+----------------------------------
+1. Create a free Cloudflare account at https://pages.cloudflare.com/.
+2. Push this repository to GitHub from your build workspace.
+3. In Cloudflare, open Workers & Pages.
+4. Click Create, then choose Pages.
+5. Connect your GitHub account and select this Ensemble-Pro repository.
+6. Use these build settings:
+   - Framework preset: Vite
+   - Build command: npm run build
+   - Build output directory: dist
+   - Root directory: leave blank unless the app is moved into a subfolder later.
+7. Click Save and Deploy.
+8. Cloudflare will install dependencies, run the build, and publish the generated dist folder.
+9. Cloudflare gives you a free URL that looks like https://ensemble-pro.pages.dev.
+10. Every push to the connected branch can automatically redeploy the app.
+11. If you own a custom domain, use the Custom domains tab in the Pages project and follow Cloudflare's DNS instructions.
+
+Manual Cloudflare upload option
+-------------------------------
+Use this if you do not want Cloudflare connected to GitHub.
+
+1. Install Node.js from https://nodejs.org/.
+2. Download or clone this repository.
+3. Open a terminal in the project folder.
+4. Run: npm install
+5. Run: npm run build
+6. A dist folder will be created.
+7. In Cloudflare Pages, choose Direct Upload.
+8. Upload the dist folder.
+9. Cloudflare publishes it to a pages.dev URL.
+10. When you change the app, run npm run build again and upload the new dist folder.
+
+How to make chat truly realtime across everyone
+-----------------------------------------------
+The current app proves the interface and local realtime pattern. For real ensembles, use one of these Cloudflare-native backend paths:
+
+Option A: Cloudflare Durable Objects for realtime chat
+1. Create a Cloudflare Worker.
+2. Add a Durable Object class for each ensemble or chat room.
+3. Store active WebSocket connections in the Durable Object.
+4. When a user sends a message, the Durable Object broadcasts it to everyone in the room.
+5. Store message history in D1 or Durable Object storage.
+6. Add role checks so directors, drum majors, section leaders, and regular members only enter allowed rooms.
+
+Option B: Cloudflare D1 for app data
+1. Create a D1 database in Cloudflare.
+2. Create tables for users, ensembles, memberships, roles, sections, pieces, practice logs, announcements, chat channels, messages, and score versions.
+3. Use Pages Functions or Workers as API endpoints.
+4. The React app calls those endpoints to load and save data.
+5. Add authentication before storing private student data.
+
+Option C: Cloudflare R2 for uploaded music files
+1. Create an R2 bucket for PDFs, MusicXML files, audio recordings, and exported score files.
+2. Use signed upload URLs so students and directors can upload files safely.
+3. Store file metadata in D1 so the dashboard knows which ensemble or user owns each piece.
+4. Directors can upload ensemble pieces; students and solo/pro users can upload personal pieces.
+
+Suggested production architecture
+---------------------------------
+1. Cloudflare Pages hosts the React front-end.
+2. Cloudflare Workers or Pages Functions provide API routes.
+3. Durable Objects power realtime chat, live score comments, and presence.
+4. D1 stores accounts, ensembles, roles, practice logs, announcements, schedule items, messages, and score metadata.
+5. R2 stores uploaded sheet music, audio, images, and exported scores.
+6. The music editor should eventually save scores as MusicXML or a custom JSON score format so notes, lyrics, slurs, crescendos, articulations, and version history can be preserved.
+
+Important note about accounts and privacy
+-----------------------------------------
+This app is for school/music ensemble users, so do not store real student data until authentication, permissions, and privacy rules are implemented. Directors should only see data for their ensembles, section leaders should only see their allowed sections, and solo/pro users should only see their own library.
