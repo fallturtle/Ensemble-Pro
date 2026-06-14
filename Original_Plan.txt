@@ -1,0 +1,33 @@
+An app/website for ensembles that allows them to communicate, practice, learn music, and more!
+Features:
+Different account types:
+- Director (can be multiple per ensemble)
+- Student/member (with sub types: section leader, drum major, regular, ect...)
+- Solo/pro
+
+Practice logging that directors can see per member or overall ensemble.
+Switching between ensembles if you are in multiple.
+Uploading/adding pieces for yourself (students can only do that, solo does that) or for the ensemble (directors can do that or do for themselves).
+Chat where members can communicate in their sections or however the director sets it up (same type of stuff as in announcements but as a regular chat, like in this github repo (a chat app i am working on with lovable): https://github.com/fallturtle/chathub-pro).
+Practice scheduling.
+Directors can send out announcements to an entire ensemble, section leaders to their section, drum majors to everyone or to just section leaders, director to just section leaders, ect...
+Practice tools:
+- Rhythm counter
+- Fingering charts
+- Smart tuner (tells you what to do to get into tune based on ur instrument)
+- Metronome
+
+Practicing you music with a follow line and metronome, also able to check what a note is and what a fingering is.
+Directors can edit music.
+Per user settings:
+- Profile stuff
+- Account type (can be different for different ensembles btw)
+- Instrument
+- Deleting account
+- Appearence
+- Change email
+- Change password
+- Other preferences
+
+Different layouts for mobile (bottom bar) vs desktop (side bar)
+Dashboard where user can see stuff like recent pieces, announcements for the current ensemble they have selected, changing ensemble, number of pieces, practice time, ect...
